@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+		<title>Yumlicious | <%= @title %></title>
+		<%= csrf_meta_tag %>
+
+		<%= render 'layouts/stylesheets'%>
+		
+	</head>
+	
+	<body>
+		
+		<%= render 'layouts/header'%>
+		
+		<section class ="round">
+			<% flash.each do |key, value| %>
+				<div class="flash <%= key %>"><%= value %> </div>
+			<% end %>
+			<!--<%= yield %>-->
+		</section>
+			
+
+		
+		<div id="container">
+			<div id="inner">
+			
+			<%= render 'layouts/menu'%>
+				
+				<div id="content">
+					<%= yield %>
+				</div>
+					
+			</div>
+			
+		</div>
+			
+		<%= render 'layouts/footer'%>
+			
+	</body>
+</html>
