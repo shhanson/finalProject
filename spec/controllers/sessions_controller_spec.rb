@@ -59,5 +59,15 @@ describe SessionsController do
       
     end #end valid
   end #end POST
+  
+  describe "DELETE 'destroy'" do
+    it "should sign a user out" do
+      @user = {:username => "Example User", :email => "user@example.com", :password => "hello", :password_confirmation => "hello"}
+      test_sign_in(@user)
+      delete :destroy
+      controller.should_not be_signed_in
+      response.should redirect_to(root_path)
+    end
+  end #end destroy
 
 end

@@ -12,8 +12,13 @@ class SessionsController < ApplicationController
     else
       #sign the user in and redirect
       sign_in user
-      redirect_to user
+      redirect_to root_path#user
     end
+  end
+  
+  def destroy
+    sign_out
+    redirect_to root_path
   end
 
 end

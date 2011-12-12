@@ -59,7 +59,7 @@ describe User do
     end
     
     it "should reject short passwords" do 
-      short = "a" * 5
+      short = "a" * 4
       hash = @attr.merge(:password => short, :password_confirmation => short)
       User.new(hash).should_not be_valid
     end
@@ -113,6 +113,18 @@ describe User do
     end #end authenticate method
     
   end #end password encryption
+  
+  
+  describe "review associations" do
+    before(:each) do
+      @user = User.create(@attr)
+    end
+    
+    it "should have a reviews attribute" do
+      @user.should respond_to(:reviews)
+    end
+
+  end #end review associations
   
 end #END
 

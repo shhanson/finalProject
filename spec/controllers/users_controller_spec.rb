@@ -37,11 +37,17 @@ describe UsersController do
   end
 
   describe "GET show" do
+    
+    before(:each) do
+      @user = { :username => "Sample user", :email => "hello@world.com", :password => "whatever", :password_confirmation => "whatever"}
+    end
    
     it "should find the right user" do
       get :show, :id => @user
       assigns(:user).should == @user
     end
+    
+    
   end
 
   describe "GET new" do
@@ -192,6 +198,7 @@ describe UsersController do
       before(:each) do
         @attr = {:username => "New user", :email => "user@example.com", :password => "foobar", :password_confirmation => "foobar" }
       end
+        
       
       it "should create a user" do
         lambda do
@@ -203,11 +210,18 @@ describe UsersController do
         post :create, :user => @attr
         response.should redirect_to(user_path(assigns(:user)))
       end
+        
       
       it "should have a welcome message" do
         post :create, :user => @attr
         flash[:success].should =~ /Welcome to Yumlicious/i
       end
+      
+      it "should sign the user in" do
+        post :create, :user => @attr
+        controller.should be_signed_in
+      end
+     
       
     end #end success
       

@@ -15,7 +15,8 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     @user = User.find(params[:id])
-    @title = "View user"
+    @reviews = @user.reviews.paginate(:page => params[:page])
+    @title = @user.username
 
     respond_to do |format|
       format.html # show.html.erb
@@ -45,9 +46,9 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(params[:user])
-    @title = "Sign up"
     
     if @user.save
+      sign_in @user
       flash[:success] = "Welcome to Yumlicious!"
       redirect_to @user
     else

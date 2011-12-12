@@ -8,6 +8,8 @@ class Review < ActiveRecord::Base
   validates :content, :presence => true,
                       :length => { :maximum => 500 }
                       
+  default_scope :order => 'reviews.created_at DESC'
+                      
                       
   self.per_page = 10
   

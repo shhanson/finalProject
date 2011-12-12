@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   attr_accessor :password
   attr_accessible :username, :email, :password, :password_confirmation
-  has_many :reviews
+  has_many :reviews, :dependent => :destroy
   
   email_regexp = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   
@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
                     
   validates :password, :presence => true,
                        :confirmation => true,
-                       :length => { :within => 6..40 }
+                       :length => { :within => 5..40 }
                        
   self.per_page = 10
                        

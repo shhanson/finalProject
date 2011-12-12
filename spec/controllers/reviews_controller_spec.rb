@@ -58,42 +58,44 @@ describe ReviewsController do
     end
   end
 
-  describe "POST create" do
-    describe "with valid params" do
-      it "creates a new Review" do
-        expect {
-          post :create, :review => valid_attributes
-        }.to change(Review, :count).by(1)
-      end
-
-      it "assigns a newly created review as @review" do
-        post :create, :review => valid_attributes
-        assigns(:review).should be_a(Review)
-        assigns(:review).should be_persisted
-      end
-
-      it "redirects to the created review" do
-        post :create, :review => valid_attributes
-        response.should redirect_to(Review.last)
-      end
+  describe "POST 'create'" do
+    before(:each) do
+      @temp = { :username => "Sample person", :email => "hello@example.net", :password => "yummy", :password_confirmation => "yummy" }
+      @user = test_sign_in(@temp)
     end
-
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved review as @review" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Review.any_instance.stub(:save).and_return(false)
-        post :create, :review => {}
-        assigns(:review).should be_a_new(Review)
+    
+    describe "failure" do
+      before(:each) do
+        @attr = { :content => "" }
       end
-
-      it "re-renders the 'new' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Review.any_instance.stub(:save).and_return(false)
-        post :create, :review => {}
-        response.should render_template("new")
+      
+      it "should not create a review" do
+        lambda do
+          post :create, :review => @attr
+        end.should_not change(Review, :count)
       end
-    end
-  end
+      
+    end #end failure
+    
+    describe "success" do
+      before(:each) do
+        @attr = { :content => "Lorem ipsum"}
+      end
+      
+      it "should create a review" do
+        lambda do
+          post :create, :review => @attr
+        end.should change(Review, :count).by(1)
+      end
+      
+      it "should redirect to the home page" do
+        post :create, :review => @attr
+        flash[:success].should =~ /review created/i
+      end
+      
+    end #end success
+    
+  end #end POST
 
   describe "PUT update" do
     describe "with valid params" do

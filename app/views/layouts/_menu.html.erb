@@ -1,5 +1,8 @@
 <div id="menu">
 		<p>
+		<% if signed_in? %>
+		<%= link_to "Profile", current_user%><br/>
+		<% end %>
 		<%= link_to 'View highest rated restaurants in your area', '#'%><br/>
 		<%= link_to 'View newest restaurants in your area', '#'%>
 		</p>

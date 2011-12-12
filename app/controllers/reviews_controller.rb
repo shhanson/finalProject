@@ -44,17 +44,13 @@ class ReviewsController < ApplicationController
   # POST /reviews
   # POST /reviews.json
   def create
-    @review = Review.new(params[:review])
-    @title = "Create review"
-    respond_to do |format|
-      if @review.save
-        format.html { redirect_to @review, notice: 'Review was successfully created.' }
-        format.json { render json: @review, status: :created, location: @review }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @review.errors, status: :unprocessable_entity }
-      end
-    end
+   @review = current_user.reviews.build(params[:review])
+   if @review.save
+     flash[:success] = "Review created!"
+     redirect_to root_path
+   else
+     render 'pages/home'
+   end
   end
 
   # PUT /reviews/1

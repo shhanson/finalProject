@@ -10,6 +10,19 @@
   <%= @user.email %>
 </p>
 
+<p>
+	<% unless @user.reviews.empty? %>
+	<table class="reviews" summary="User reviews">
+		<% @user.reviews.each do |review| %>
+			<tr>
+				<td><b><%= review.restaurant.name %></b>: <%= review.content %></td>
+			</tr>
+		<% end %>
+	</table>
+	<%= will_paginate @reviews %>
+	<% end %>	
+</p>
+
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
